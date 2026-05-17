@@ -23,6 +23,8 @@ router.post('/register', async (req, res) => {
     );
 
     res.status(201).json({ message: 'User registered successfully', user: result.rows[0] });
+    sendLog('auth-service', `User registered: ${email}`);
+
   } catch (err) {
     if (err.code === '23505') {
       return res.status(409).json({ error: 'Username or email already exists' });
@@ -64,6 +66,7 @@ router.post('/login', async (req, res) => {
     );
 
     res.json({ token, user: { id: user.id, username: user.username, email: user.email, role: user.role } });
+    sendLog('auth-service', `User logged in: ${email}`);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Internal server error' });
@@ -82,6 +85,7 @@ router.post('/validate', (req, res) => {
 
     const decoded = jwt.verify(token, JWT_SECRET);
     res.json({ valid: true, user: decoded });
+    sendLog('auth-service', `Token validated for userId: ${decoded.userId}`);
   } catch (err) {
     res.status(401).json({ valid: false, error: 'Invalid or expired token' });
   }
