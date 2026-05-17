@@ -1,6 +1,6 @@
 # invoice-auth-service
 
-Authentication and authorization microservice for the Invoice System project (IDP – UPB 342C5).
+Authentication and authorization microservice for the Invoice System
 
 ## Endpoints
 
